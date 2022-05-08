@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ArcheryStats</string>
+    <string name="table_header_average">DSchnitt</string>
+    <string name="table_header_number">Numer</string>
+    <string name="table_header_sum">Summe</string>
+    <string name="plot1_header">Punkte pro 6 Schüsse</string>
+    <string name="plot2_header">Anzahl der Schüsse</string>
+    <string name="main_shots">Schüsse:</string>
+    <string name="main_save">Speichern</string>
+    <string name="main_delete">entf</string>
+    <string name="menu_close_session">Trainingseinheit beenden</string>
+    <string name="menu_load_Session">Trainingseinheit laden</string>
+    <string name="menu_new_custom_session">Neue spezielle Trainingseinheit</string>
+    <string name="menu_new_session">Neue Trainingseinheit</string>
+    <string name="menu_settings">Einstellungen</string>
+    <string name="menu_special">Fortgeschritten</string>
+    <string name="menu_view_entries">Trainingseinheit anzeigen</string>
+    <string name="menu_view_plots">Graphen anzeigen</string>
+    <string name="dialog_empty_fields_header">Unausgefüllte Felder?</string>
+    <string name="dialog_empty_fields_message">Manche Felder sind leer</string>
+    <string name="toast_no_session">Keine Trainingseinheit geladen</string>
+    <string name="toolbar_title_no_session">Keine Trainingseinheit</string>
+    <string name="dialog_choose_session">Wähle eine Trainingseinheit aus</string>
+    <string name="dialog_start_new_custom_session">Eine neue spezielle Trainingseinheit starten</string>
+    <string name="toast_invalid_filename">Kein korrekter Dateiname (nur azAZ09</string>
+    <string name="dialog_start_new_session_title">Neue Trainingseinheit starten</string>
+    <string name="dialog_start_new_session_message">Sind sie sicher, dass sie eine neue Trainingseinheit starten wollen?</string>
+    <string name="dialog_start_new_custom_session_hint">Name der Trainingseinheit</string>
+    <string name="navigation_drawer_close">Navigation schließen</string>
+    <string name="navigation_drawer_open">Navigation öffnen</string>
+</resources>

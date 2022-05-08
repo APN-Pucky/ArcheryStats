@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/new_session"
+            android:title="@string/menu_new_session" />
+        <item
+            android:id="@+id/load_session"
+            android:title="@string/menu_load_Session" />
+        <item
+            android:id="@+id/close_session"
+            android:title="@string/menu_close_session" />
+        <item
+            android:id="@+id/view_session_entries"
+            android:title="@string/menu_view_entries" />
+
+    </group>
+
+    <item android:title="@string/menu_special">
+        <menu>
+            <item
+                android:id="@+id/new_custom_session"
+                android:title="@string/menu_new_custom_session" />
+            <item
+                android:id="@+id/view_plots"
+                android:title="@string/menu_view_plots" />
+        </menu>
+    </item>
+
+    <!--<item android:title="@string/menu_settings">
+        <menu>
+            <item
+                android:id="@+id/nav_manage"
+                android:title="@string/menu_settings" />
+        </menu>
+    </item>-->
+
+</menu>
