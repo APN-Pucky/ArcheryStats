@@ -9,7 +9,7 @@
     <string name="table_header_sum">Sum</string>
     <string name="table_header_average">Average</string>
     <string name="plot1_header">Score per 6 Shots</string>
-    <string name="plot2_header">Number of Shots</string>
+    <string name="plot2_header">Distribution of Shots</string>
     <string name="main_shots">Shots:</string>
     <string name="main_save">Save</string>
     <string name="main_delete">del</string>

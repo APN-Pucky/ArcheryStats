@@ -1,7 +1,11 @@
 package alexander.neuwirthinformatik.de.archerystats;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
+import android.provider.DocumentsContract;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -9,21 +13,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 public class CSVExport {
-    File file, directory;
+    Uri file;
     MainActivity mainActivity;
 
     public CSVExport(MainActivity mainActivity)
     {
         this.mainActivity = mainActivity;
-
-        directory = new File(Environment.getExternalStorageDirectory() + "/ArcheryStats/");
-        if(!directory.exists()) {
-            directory.mkdirs();
-        }
     }
 
     public boolean isSessionActive()
@@ -36,27 +36,9 @@ public class CSVExport {
         file = null;
     }
 
-    public String[] listSavedSessions()
+    public void setSessionFile(Uri file)
     {
-        File[] files = directory.listFiles();
-        String[] file_names = new String[files.length];
-        for(int i = 0; i < files.length;i++)
-        {
-            file_names[i] = files[i].getName().split("\\.csv")[0];
-        }
-        return file_names;
-    }
-
-    public void setSessionFile(String filename)
-    {
-        file = new File(Environment.getExternalStorageDirectory() + "/ArcheryStats/" + filename + ".csv");
-        if(!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                Log.e("IO1",""+e.toString());
-            }
-        }
+        this.file = file;
     }
 
     public void exportValues(int[] values)
@@ -64,7 +46,12 @@ public class CSVExport {
         if (file !=null)
         {
             try {
-                OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(file,true));
+                ParcelFileDescriptor pfd = mainActivity.getContentResolver().
+                openFileDescriptor(file, "wa");
+                FileOutputStream fileOutputStream =
+                new FileOutputStream(pfd.getFileDescriptor());
+
+                OutputStreamWriter out = new OutputStreamWriter(fileOutputStream);
 
                 for(int i : values)
                 {
@@ -82,7 +69,7 @@ public class CSVExport {
     {
         int[][] data = new int[0][0];
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+            BufferedReader br = new BufferedReader(new InputStreamReader((InputStream) mainActivity.getContentResolver().openInputStream(file)));
             String line;
             String file_data = "";
             int number_lines =0;

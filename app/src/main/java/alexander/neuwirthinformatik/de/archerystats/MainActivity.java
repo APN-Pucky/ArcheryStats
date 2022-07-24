@@ -1,32 +1,34 @@
 package alexander.neuwirthinformatik.de.archerystats;
 
-import android.Manifest;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
+import android.provider.DocumentsContract;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.google.android.material.navigation.NavigationView;
+
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -104,8 +106,6 @@ public class MainActivity extends AppCompatActivity
             viewPlots();
         } else if (id == R.id.view_session_entries) {
             viewSessionEntries();
-        } else if (id ==R.id.new_custom_session) {
-            startNewCustomSession();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -133,8 +133,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void updateCurrentTextView(){
-        textViews[currentShot].setText(""+values[currentShot]);
-        setCurrentShot((currentShot +1) % 6);
+        if ( values[currentShot] >= 0) {
+            textViews[currentShot].setText("" + values[currentShot]);
+            setCurrentShot((currentShot + 1) % 6);
+        }
+        else {
+            textViews[currentShot].setText(" - ");
+        }
     }
 
     private void resetTextViews(){
@@ -164,7 +169,6 @@ public class MainActivity extends AppCompatActivity
         else
         {
             //push values to CSV
-
             for (int v : values)//ERROR TOAST DIALOG
             {
                 if(v==-1)
@@ -248,70 +252,70 @@ public class MainActivity extends AppCompatActivity
         resetTextViews();
     }
 
-    public void setSessionFile(String name)
+    public void updateSessionFile(Uri file)
     {
-        setTitle(name);
+        setTitle(new File(file.getPath()).getName());
         bar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this,R.color.colorPrimary)));
-        csvexport.setSessionFile(name);
+        csvexport.setSessionFile(file);
         updateShotCount();
         resetTextViews();
     }
 
-    public void loadSession()
-    {
-        final String[] options = csvexport.listSavedSessions();
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.dialog_choose_session)
-                .setItems(options ,new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        setSessionFile(options[which]);
-                    }
-                }).create().show();
+    private static final int CREATE_FILE = 1;
+
+    public void createSession(String session) {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/csv");
+        intent.putExtra(Intent.EXTRA_TITLE, session);
+
+        // Optionally, specify a URI for the directory that should be opened in
+        // the system file picker when your app creates the document.
+        intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, "ArcheryStats");
+
+        startActivityForResult(intent, CREATE_FILE);
     }
-    public void startNewCustomSession()
-    {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        final MainActivity mainActivity = this;
 
-        LayoutInflater eulaInflater = LayoutInflater.from(this);
-        View sessionLayout = eulaInflater.inflate(R.layout.dialog_custom_session, null);
-        builder.setView(sessionLayout);
-        //Checkbox dontShowAgain = (CheckBox)eulaLayout.findViewById(R.id.dontShowAgain);
+    private static final int PICK_FILE = 2;
 
+    public void loadSession() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
 
-        final EditText input = (EditText) sessionLayout.findViewById(R.id.custom_session_name);
-        input.setInputType(InputType.TYPE_CLASS_TEXT );
-        //builder.setView(input);
-        //dialog design
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("file/*");
+        String[] mimeTypes = { "text/csv", "text/comma-separated-values" ,"application/pdf","image/*"};
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
 
+        // Optionally, specify a URI for the file that should appear in the
+        // system file picker when it loads.
+        intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, "ArcheryStats");
 
-        builder.setTitle(R.string.dialog_start_new_custom_session)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // continue with new session
-                        String name = input.getText().toString();
-                        Pattern p = Pattern.compile("[^a-zA-Z0-9]");
-                        boolean hasSpecialChar = p.matcher(name).find();
-                        if(!hasSpecialChar)
-                        {
-                            setSessionFile(name);
-                            values = new int[]{-1,-1,-1,-1,-1,-1};
-                            resetTextViews();
+        startActivityForResult(intent, PICK_FILE);
+    }
 
-                        }
-                        else
-                        {
-                            Toast.makeText(mainActivity,R.string.toast_invalid_filename,Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // do nothing
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
+    @Override
+    public void onActivityResult(int requestCode, int resultCode,
+        Intent resultData) {
+        if (requestCode == PICK_FILE
+                && resultCode == Activity.RESULT_OK) {
+            // The result data contains a URI for the document or directory that
+            // the user selected.
+            Uri uri = null;
+            if (resultData != null) {
+                uri = resultData.getData();
+                updateSessionFile(uri);
+            }
+        }
+        if (requestCode == CREATE_FILE
+                && resultCode == Activity.RESULT_OK) {
+            // The result data contains a URI for the document or directory that
+            // the user selected.
+            Uri uri = null;
+            if (resultData != null) {
+                uri = resultData.getData();
+                updateSessionFile(uri);
+            }
+        }
     }
 
     public void startNewSession() {
@@ -323,7 +327,7 @@ public class MainActivity extends AppCompatActivity
                     public void onClick(DialogInterface dialog, int which) {
                         // continue with new session
                         String dateString = new SimpleDateFormat("yyyy-MM-dd-HH;mm;ss", Locale.GERMAN).format(new Date());
-                        setSessionFile(dateString);
+                        createSession(dateString);
                         values = new int[]{-1,-1,-1,-1,-1,-1};
                         resetTextViews();
                     }
@@ -336,7 +340,9 @@ public class MainActivity extends AppCompatActivity
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
-
+    public void buttonDel(View view) {
+        input_button(-1);
+    }
     public void button0(View view) {
         input_button(0);
     }

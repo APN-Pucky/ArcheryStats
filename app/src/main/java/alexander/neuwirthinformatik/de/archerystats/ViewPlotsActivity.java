@@ -1,6 +1,6 @@
 package alexander.neuwirthinformatik.de.archerystats;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -42,7 +42,7 @@ public class ViewPlotsActivity extends AppCompatActivity {
         }
         else
         {
-            Log.e("ViewEntries", "No Data");
+            Log.e("ViewPlots", "No Data");
             return;
         }
         setUpPlot1();
