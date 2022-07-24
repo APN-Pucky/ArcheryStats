@@ -3,7 +3,9 @@ on:
   push:
   
 jobs:
+  default:
     runs-on: ubuntu-latest
+    
     steps:
       - name: Validate Fastlane Supply Metadata
         uses: ashutoshgngwr/validate-fastlane-supply-metadata@v2
