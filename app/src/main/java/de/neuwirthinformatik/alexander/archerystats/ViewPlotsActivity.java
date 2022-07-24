@@ -1,4 +1,4 @@
-package alexander.neuwirthinformatik.de.archerystats;
+package de.neuwirthinformatik.alexander.archerystats;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +18,8 @@ import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParsePosition;
 import java.util.Arrays;
+
+import alexander.neuwirthinformatik.de.archerystats.R;
 
 public class ViewPlotsActivity extends AppCompatActivity {
 

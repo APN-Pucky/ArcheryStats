@@ -1,4 +1,4 @@
-package alexander.neuwirthinformatik.de.archerystats;
+package de.neuwirthinformatik.alexander.archerystats;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -9,11 +9,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
-import android.text.InputType;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +29,8 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.regex.Pattern;
+
+import alexander.neuwirthinformatik.de.archerystats.R;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

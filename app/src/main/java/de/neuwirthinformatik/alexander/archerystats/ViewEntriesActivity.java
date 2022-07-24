@@ -1,4 +1,4 @@
-package alexander.neuwirthinformatik.de.archerystats;
+package de.neuwirthinformatik.alexander.archerystats;
 
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import alexander.neuwirthinformatik.de.archerystats.R;
 
 public class ViewEntriesActivity extends AppCompatActivity {
 
