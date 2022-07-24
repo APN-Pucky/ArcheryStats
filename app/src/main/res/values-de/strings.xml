@@ -5,7 +5,7 @@
     <string name="table_header_number">Numer</string>
     <string name="table_header_sum">Summe</string>
     <string name="plot1_header">Punkte pro 6 Schüsse</string>
-    <string name="plot2_header">Anzahl der Schüsse</string>
+    <string name="plot2_header">Verteilung der Schüsse</string>
     <string name="main_shots">Schüsse:</string>
     <string name="main_save">Speichern</string>
     <string name="main_delete">entf</string>
