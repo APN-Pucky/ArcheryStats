@@ -2,8 +2,8 @@ name: Minimal Android CI Workflow
 
 on:
   push:
-    branch:
-      - 'master'
+    branches:
+      - master
     tags:
       - '*'
 
