@@ -17,10 +17,10 @@ jobs:
       - name: Setup JDK
         uses: actions/setup-java@v3
         with:
-          distribution: 'zulu'
+          distribution: 'adopt'
           java-version: '11'
       - name: Run Tests
-        run: bash ./gradlew test --stacktrace  
+        run: ./gradlew test --stacktrace  
   apk:
     name: Generate APK
     needs: test
@@ -33,7 +33,7 @@ jobs:
       - name: Setup JDK
         uses: actions/setup-java@v3
         with:
-          distribution: 'zulu'
+          distribution: 'adopt'
           java-version: '11'
       - name: Generate Debug APK
         run: ./gradlew clean assembleDebug
