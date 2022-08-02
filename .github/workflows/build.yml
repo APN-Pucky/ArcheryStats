@@ -35,7 +35,7 @@ jobs:
           java-version: 1.11
       - name: Build all artifacts
         id: buildAllApks
-        uses: eskatos/gradle-command-action@v1.3.3
+        uses: eskatos/gradle-command-action@v2.2.2
         with:
           gradle-version: current
           wrapper-cache-enabled: true
@@ -69,7 +69,7 @@ jobs:
           prerelease: false
       - name: Upload Release APK
         id: upload_release_asset
-        uses: actions/upload-release-asset@v1.0.1
+        uses: actions/upload-release-asset@v1.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
