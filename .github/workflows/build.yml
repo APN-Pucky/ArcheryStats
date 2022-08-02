@@ -37,13 +37,27 @@ jobs:
           java-version: '11'
       - name: Generate APKs
         run: ./gradlew clean assembleDebug assembleRelease
-        
+      - name: Upload APKs
+        uses: actions/upload-artifact@v3
+        with:
+          name: apk
+          path: app/build/outputs/apk/**/*.apk 
+  release:
+    name: Release APK
+    needs: apk
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Download APK from build
+        uses: actions/download-artifact@v3
+        with:
+          name: apk  
       - name: Upload APKs
         if: startsWith(github.ref, 'refs/tags/')
         id: upload_release_asset
         uses: softprops/action-gh-release@v1
         with:
          files: |
-            app/build/outputs/apk/debug/app-debug.apk
-            app/build/outputs/apk/release/app-release.apk
+            debug/app-debug.apk
+            release/app-release.apk
  
