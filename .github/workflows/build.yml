@@ -37,9 +37,27 @@ jobs:
           java-version: '11'
       - name: Generate Debug APK
         run: ./gradlew clean assembleDebug
-      - name: Upload Release APK
-        if: startsWith(github.ref, 'refs/tags/')
-        id: upload_release_asset
-        uses: softprops/action-gh-release@v1
+        
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+      
+      - name: Create Release and Upload debug APK
+        uses: underwindfall/create-release-with-debugapk@v1.2.4
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: app/build/outputs/apk/debug/app-debug.apk
+          tag_name: ${{ steps.get_version.outputs.VERSION }}
+          release_name: Release ${{ steps.get_version.outputs.VERSION }}
+          asset_path: app/build/outputs/apk/debug/app-debug.apk
+          asset_name: ArcheryStats.apk
+          asset_content_type: application/zip
+          draft: false
+          prerelease: false
+#      - name: Upload Release APK
+#        if: startsWith(github.ref, 'refs/tags/')
+#        id: upload_release_asset
+#        uses: softprops/action-gh-release@v1
+ ##       with:
+ #         files: app/build/outputs/apk/debug/app-debug.apk
+ 
