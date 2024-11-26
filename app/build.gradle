@@ -33,6 +33,6 @@ dependencies {
 
 
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
-    implementation 'androidx.drawerlayout:drawerlayout:1.1.1'
+    implementation 'androidx.drawerlayout:drawerlayout:1.2.0'
     implementation "com.androidplot:androidplot-core:1.5.10"
 }
